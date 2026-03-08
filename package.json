@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-"build": "prisma generate && tsc && xcopy /E /I /Y src\\generated dist\\generated",
+  "build": "prisma generate && tsc",
 "start": "node --import tsx/esm dist/index.js",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
