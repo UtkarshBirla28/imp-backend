@@ -1,4 +1,4 @@
-# 💕 Valentine Date Planner — Backend
+
 
 **Stack:** Node.js · Express · Prisma v7 · Neon DB (PostgreSQL)
 
