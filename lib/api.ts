@@ -13,7 +13,7 @@
  * ─────────────────────────────────────────────────────────────
  */
 
-import type { Restaurant, DateAssignment } from "./types";
+import type { Restaurant, DateAssignment } from "../src/lib/types";
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001/api";

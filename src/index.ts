@@ -4,7 +4,7 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
-
+import promisesRouter from "./routes/promises.js"; 
 import restaurantsRouter from "./routes/restaurants.js";
 import assignmentsRouter from "./routes/assignments.js";
 import stateRouter from "./routes/state.js";
@@ -68,7 +68,7 @@ app.get("/health", (_req, res) => {
 app.use("/api/restaurants", restaurantsRouter);
 app.use("/api/assignments", assignmentsRouter);
 app.use("/api/state", stateRouter);
-
+app.use("/api/promises", promisesRouter); 
 // ─────────────────────────────────────────────────────────────
 // 404 + global error handler (must come LAST)
 // ─────────────────────────────────────────────────────────────
