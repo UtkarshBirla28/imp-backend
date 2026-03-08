@@ -1,0 +1,64 @@
+// Prisma v7 schema
+// - generator provider is now "prisma-client" (not "prisma-client-js")
+// - output goes to ../generated/prisma
+// - DATABASE_URL is managed via prisma.config.ts, not here
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─────────────────────────────────────────────────────────────
+// Restaurant
+// Stores both the 12 default options AND any custom ones
+// the user creates via the form in the app
+// ─────────────────────────────────────────────────────────────
+model Restaurant {
+  id        String   @id @default(cuid())
+  name      String
+  image     String
+  cuisine   String
+  isCustom  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  assignments DateAssignment[]
+
+  @@map("restaurants")
+}
+
+// ─────────────────────────────────────────────────────────────
+// DateAssignment
+// One row per date. dateKey is the ISO string "YYYY-MM-DD".
+// Unique constraint on dateKey means only one restaurant per date.
+// Drag-and-dropping a new restaurant onto an already-filled date
+// is handled with an upsert (overwrite).
+// ─────────────────────────────────────────────────────────────
+model DateAssignment {
+  id           String     @id @default(cuid())
+  dateKey      String     @unique  // e.g. "2025-03-14"
+  restaurantId String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  assignedAt   DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@index([dateKey])
+  @@map("date_assignments")
+}
+
+// ─────────────────────────────────────────────────────────────
+// AppState
+// Single-row table (id always = "singleton").
+// Persists whether the proposal was accepted.
+// ─────────────────────────────────────────────────────────────
+model AppState {
+  id               String   @id @default("singleton")
+  proposalAccepted Boolean  @default(false)
+  updatedAt        DateTime @updatedAt
+
+  @@map("app_state")
+}
